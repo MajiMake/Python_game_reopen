@@ -35,12 +35,13 @@ def update(bg_color, screen,gun, inos, bullets):
     inos.draw(screen)
     pygame.display.flip()
 
-def update_bullets(bullets):
+def update_bullets(inos, bullets):
     '''Обновлять позиции пуль'''
     bullets.update()
     for bullet in bullets.copy():
         if bullet.rect.bottom <= 0:
             bullets.remove(bullet)
+    collisions = pygame.sprite.groupcollide(bullets, inos, True, True)
 
 def create_army(screen, inos):
     '''Создание армии пришельцев'''
@@ -59,6 +60,8 @@ def create_army(screen, inos):
             ino.rect.y = ino.rect.height + ino.rect.height * row_number
             inos.add(ino)
 
-def update_inos(inos):
+def update_inos(gun, inos):
     '''Обновляет позицию инопланетян'''
     inos.update()
+    if pygame.sprite.spritecollideany(gun, inos):
+        print('!!!!!!!!!')
